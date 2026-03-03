@@ -1,5 +1,23 @@
+# SSH Keys
 *.pem
+
+# Terraform
 .terraform/
-terraform.tfstate
-terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Environment files
 .env
+.env.*
+
+# macOS junk
+.DS_Store
+
+# Logs
+*.log

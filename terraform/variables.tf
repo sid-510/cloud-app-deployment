@@ -10,7 +10,7 @@ variable "instance_type" {
 
 variable "docker_image" {
     description = "Docker image to deploy"
-    default = "siddheeshhh/cloud-app:v2"
+    default = "siddheeshhh/cloud-app:latest"
 }
 
 variable "my_ip" {

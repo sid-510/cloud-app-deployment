@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "eu-west-1"
+    region = var.region
 }
 
 resource "aws_security_group" "web_sg" {
@@ -19,7 +19,7 @@ resource "aws_security_group" "web_sg" {
         from_port = 22
         to_port = 22
         protocol = "tcp"
-        cidr_blocks = ["80.111.21.32/32"]
+        cidr_blocks = ["${var.my_ip}/32"]
     }
 
     egress {
@@ -37,7 +37,7 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_instance" "cloud_app" {
     ami = "ami-09c20105c9b62f893"
-    instance_type = "t3.micro"
+    instance_type = var.instance_type
 
     vpc_security_group_ids = [aws_security_group.web_sg.id]
 
@@ -49,15 +49,11 @@ resource "aws_instance" "cloud_app" {
                 yum install docker -y
                 service docker start
                 usermod -aG docker ec2-user
-                docker pull siddheeshhh/cloud-app:v2
-                docker run -d -p 80:5000 siddheeshhh/cloud-app:v2
+                docker pull ${var.docker_image}
+                docker run -d -p 80:5000 ${var.docker_image}
                 EOF
 
     tags = {
         Name = "terraform-cloud-app"
     }
-}
-
-output "public_ip" {
-    value = aws_instance.cloud_app.public_ip
 }
